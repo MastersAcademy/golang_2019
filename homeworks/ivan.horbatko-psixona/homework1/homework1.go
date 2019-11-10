@@ -46,12 +46,12 @@ func (p *Parallelepiped) v() float64 {
 }
 
 func main() {
-	ball1 := Ball{"ball1", 4}
-	ball2 := Ball{"ball2", 6}
+	ball1 := Ball{"ball1", 4.6}
+	ball2 := Ball{"ball2", 5.7}
 	cone1 := Cone{"cone1", 5.0, 6.2}
-	cone2 := Cone{"cone2", 3.3, 10}
-	parallelepiped1 := Parallelepiped{"parallelepiped1", 6, 9, 15}
-	parallelepiped2 := Parallelepiped{"parallelepiped2", 8, 3, 4}
+	cone2 := Cone{"cone2", 3.3, 8.8}
+	parallelepiped1 := Parallelepiped{"parallelepiped1", 6.3, 9.2, 15}
+	parallelepiped2 := Parallelepiped{"parallelepiped2", 8, 3, 4.4}
 	m[ball1.ballName] = ball1.v()
 	m[ball2.ballName] = ball2.v()
 	m[cone1.coneName] = cone1.v()
