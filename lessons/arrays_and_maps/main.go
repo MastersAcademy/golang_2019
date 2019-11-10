@@ -161,12 +161,4 @@ func main() {
 
 	sort.Sort(SSlice(keys))
 	fmt.Printf("Reverse Keys: %v\n", keys)
-
-	a := []string{}
-	b := SSlice{}
-
-	a = b
-
-	fmt.Printf("Variable a: %v\n", a)
-
 }
