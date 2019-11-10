@@ -8,24 +8,25 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 // Ball declaration (4 / 3 * math.Pi * r * r *r
 type Ball struct {
-	//ballName string
-	r float64
+	ballName string
+	r        float64
 }
 
 // Cone declaration (1/3*math.Pi*r*r*h)
 type Cone struct {
-	//coneName string
-	r, h float64
+	coneName string
+	r, h     float64
 }
 
 // Parallelepiped declaration (h * l * w)
 type Parallelepiped struct {
-	//parallelepipedName string
-	l, w, h float64
+	parallelepipedName string
+	l, w, h            float64
 }
 
 var (
@@ -33,11 +34,11 @@ var (
 )
 
 func (b *Ball) v() float64 {
-	return 4 / 3 * math.Pi * b.r * b.r * b.r
+	return 4.0 / 3.0 * math.Pi * b.r * b.r * b.r
 }
 
 func (c *Cone) v() float64 {
-	return 1 / 3 * math.Pi * c.r * c.r * c.h
+	return 1.0 / 3.0 * math.Pi * c.r * c.r * c.h
 }
 
 func (p *Parallelepiped) v() float64 {
@@ -45,13 +46,36 @@ func (p *Parallelepiped) v() float64 {
 }
 
 func main() {
-	ball1 := Ball{1}
-	ball2 := Ball{1.5}
-	cone1 := Cone{5.0, 6.2}
-	parallelepiped1 := Parallelepiped{6, 9, 15}
-	m["ball1"] = ball1.v()
-	m["ball2"] = ball2.v()
-	m["cone1"] = cone1.v()
-	m["Parallelepiped1"] = parallelepiped1.v()
+	ball1 := Ball{"ball1", 4}
+	ball2 := Ball{"ball2", 6}
+	cone1 := Cone{"cone1", 5.0, 6.2}
+	cone2 := Cone{"cone2", 3.3, 10}
+	parallelepiped1 := Parallelepiped{"parallelepiped1", 6, 9, 15}
+	parallelepiped2 := Parallelepiped{"parallelepiped2", 8, 3, 4}
+	m[ball1.ballName] = ball1.v()
+	m[ball2.ballName] = ball2.v()
+	m[cone1.coneName] = cone1.v()
+	m[cone2.coneName] = cone2.v()
+	m[parallelepiped1.parallelepipedName] = parallelepiped1.v()
+	m[parallelepiped2.parallelepipedName] = parallelepiped2.v()
 	fmt.Println(m)
+	type sSort struct {
+		Key   string
+		Value float64
+	}
+
+	var ss []sSort
+	for k, v := range m {
+		ss = append(ss, sSort{k, v})
+		//fmt.Println(ss)
+	}
+
+	sort.Slice(ss, func(i, j int) bool {
+		//fmt.Println(ss[i].Value, ss[j].Value, i , j)
+		return ss[i].Value > ss[j].Value
+	})
+
+	for _, sSort := range ss {
+		fmt.Printf("%s, %v\n", sSort.Key, sSort.Value)
+	}
 }
