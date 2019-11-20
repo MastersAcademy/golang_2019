@@ -12,33 +12,36 @@ import (
 // }
 
 type ConsoleData struct {
-	Filename string
-	Key      string
+	Source, Key string
 }
 
 func main() {
 	var v ConsoleData
 	v.loadData()
 
-	fileContent := getDataFromFile(v.Filename)
+	fileContent := getData(v.Source)
+	jsonData := parseData(fileContent)
 
-	jsonData := parseFile(fileContent)
-	fmt.Println(jsonData[v.Key])
+	if jsonData[v.Key] == nil {
+		fmt.Printf("Key '%s' dosn't exists.\n", v.Key)
+	} else {
+		fmt.Println(jsonData[v.Key])
+	}
 }
 
-func parseFile(data string) map[string]interface{} {
+func parseData(data string) map[string]interface{} {
 	var result map[string]interface{}
 	json.Unmarshal([]byte(data), &result)
 	return result
 }
 
 func (v *ConsoleData) loadData() {
-	v.Filename = os.Args[1]
+	v.Source = os.Args[1]
 	v.Key = os.Args[2]
 }
 
-func getDataFromFile(filename string) string {
-	data, err := ioutil.ReadFile(filename)
+func getData(source string) string {
+	data, err := ioutil.ReadFile(source)
 	checkError(err)
 	return string(data)
 }
