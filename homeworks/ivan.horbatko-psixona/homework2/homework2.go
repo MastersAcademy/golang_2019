@@ -1,5 +1,13 @@
 package main
 
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"strconv"
+)
+
 //type file struct {
 //	name string
 //}
@@ -54,17 +62,11 @@ package main
 
 //	}
 //
-
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"strconv"
-)
-
+// NameReader -
+// source can be local file or url of JSON file
+// read this file, parse and return "key" field value
 type NameReader interface {
-	Read(source string, key string) string
+	Read(source string, key string) []string
 }
 
 type Users struct {
@@ -80,8 +82,11 @@ type User struct {
 var users Users
 
 const adr = "homeworks/ivan.horbatko-psixona/homework2/users.json"
+type Sourse struct {
+	sourse, key string
+}
 
-func Read(sourse, key string) []string {
+func (s *Sourse) Read(sourse, key string) []string {
 	//Open JSON file
 	userJson, err := os.Open(sourse)
 	if err != nil {
@@ -115,9 +120,7 @@ func Read(sourse, key string) []string {
 }
 
 func main() {
-	res := Read(adr, "Name")
-	fmt.Println(res)
-	res = Read(adr, "Age")
-	fmt.Println(res)
-
+	var res NameReader = &Sourse{}
+	fmt.Println("Name is ", res.Read(adr, "Name"))
+	fmt.Println("Age is ", res.Read(adr,"Age"))
 }
