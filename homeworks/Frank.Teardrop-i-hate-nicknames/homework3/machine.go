@@ -20,7 +20,7 @@ func (m *Machine) push(x int) *Machine {
 }
 
 func (m *Machine) peek() (int, error) {
-    if len(m.items) > 0 {
+    if !m.isEmpty() {
         return m.items[len(m.items)-1], nil
     } else {
         return 0, errors.New("Machine is empty")
@@ -28,7 +28,7 @@ func (m *Machine) peek() (int, error) {
 }
 
 func (m *Machine) pop() (int, *Machine, error) {
-    if len(m.items) > 0 {
+    if !m.isEmpty() {
         top := m.items[len(m.items)-1]
         nextItems := m.items[:len(m.items)-1]
         return top, MakeMachine(nextItems, m.num), nil
@@ -37,8 +37,14 @@ func (m *Machine) pop() (int, *Machine, error) {
     }
 }
 
+func (m *Machine) isEmpty() bool {
+    return len(m.items) == 0
+}
+
 func MakeMachine(items []int, num int) *Machine {
-    m := &Machine{items, num}
+    tmp := make([]int, len(items))
+    copy(tmp, items)
+    m := &Machine{tmp, num}
     return m
 }
 
