@@ -6,39 +6,43 @@ import(
     "strconv"
 )
 
+// used for identifying different machine objects that represent
+// the "same" machine in different states
+var nextMachineNum = 0
+
 type Machine struct {
     items []int
-    sp int
+    num int
 }
 
-func (m *Machine) push(x int) {
-    m.items = append(m.items, x)
-    m.sp += 1
+func (m *Machine) push(x int) *Machine {
+    return MakeMachine(append(m.items, x), m.num)
 }
 
 func (m *Machine) peek() (int, error) {
-    if m.sp > 0 {
-        return m.items[m.sp-1], nil
+    if len(m.items) > 0 {
+        return m.items[len(m.items)-1], nil
     } else {
         return 0, errors.New("Machine is empty")
     }
 }
 
-func (m *Machine) pop() (int, error) {
-    if m.sp > 0 {
-        m.sp -= 1
-        return m.items[m.sp], nil
+func (m *Machine) pop() (int, *Machine, error) {
+    if len(m.items) > 0 {
+        top := m.items[len(m.items)-1]
+        nextItems := m.items[:len(m.items)-1]
+        return top, MakeMachine(nextItems, m.num), nil
     } else {
-        return 0, errors.New("Machine is empty")
+        return 0, nil, errors.New("Machine is empty")
     }
 }
 
-func MakeMachine(items []int) *Machine {
-    m := &Machine{items, len(items)}
+func MakeMachine(items []int, num int) *Machine {
+    m := &Machine{items, num}
     return m
 }
 
-func MakeFromString(s string) *Machine {
+func MakeMachineFromString(s string) *Machine {
     itemsStr := strings.Split(s[1:len(s)-1], " ")
     items := make([]int, 0)
     for i := len(itemsStr)-1; i >= 0; i -= 1 {
@@ -48,13 +52,14 @@ func MakeFromString(s string) *Machine {
         }
         items = append(items, item)
     }
-    return MakeMachine(items)
+    nextMachineNum += 1
+    return MakeMachine(items, nextMachineNum)
 }
 
 func (m *Machine) String() string {
     var sb strings.Builder
     sb.WriteString("[")
-    for i := m.sp-1; i >= 0; i -= 1 {
+    for i := len(m.items)-1; i >= 0; i -= 1 {
         sb.WriteString(strconv.Itoa(m.items[i]))
         if (i > 0) {
             sb.WriteString(" ")
