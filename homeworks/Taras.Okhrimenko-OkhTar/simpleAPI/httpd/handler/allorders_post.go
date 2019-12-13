@@ -10,7 +10,7 @@ import (
 
 type allOrdersPostRequest struct {
 	ID       string `json:"id"`
-	Products string `json:"products"`
+	Products []int  `json:"products"`
 }
 
 func AllOrdersPost(o *order.AllOrders) gin.HandlerFunc {
@@ -23,7 +23,7 @@ func AllOrdersPost(o *order.AllOrders) gin.HandlerFunc {
 			Products: reqBody.Products,
 		}
 
-		if (item.ID != "") || (item.Products != "") {
+		if (item.ID != "") || (item.Products != nil) {
 			o.Add(item)
 		}
 

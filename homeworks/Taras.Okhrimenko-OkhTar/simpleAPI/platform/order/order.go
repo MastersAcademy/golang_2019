@@ -2,7 +2,7 @@ package order
 
 type Order struct {
 	ID       string `json:"id"`
-	Products string `json:"products"`
+	Products []int  `json:"products"`
 }
 
 type AllOrders struct {
