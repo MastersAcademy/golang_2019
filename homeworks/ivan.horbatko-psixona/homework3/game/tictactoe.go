@@ -97,7 +97,7 @@ func (t *TicTacToeGame) HasWinner() bool {
 
 func (t *TicTacToeGame) IsBoardFull() bool {
 	for _, slot := range t.Board {
-		if slot == Empty git{
+		if slot == Empty {
 			return false
 		}
 	}
