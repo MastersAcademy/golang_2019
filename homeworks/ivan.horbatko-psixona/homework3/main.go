@@ -34,8 +34,8 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
-			player1 := game.NewLocalPlayer(game.X, conn)
-			player2 := game.NewLocalPlayer(game.O, conn)
+			player1 := game.NewRemoteNetworkPlayer(game.O, conn)
+			player2 := game.NewLocalPlayer(game.X, conn)
 			game.NewTicTacToeGame(player1, player2).Run()
 		} else if *opponent == "human" {
 			player1 := game.NewHuman_Player(game.X)

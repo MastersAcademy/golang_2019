@@ -99,12 +99,10 @@ func NewRemoteNetworkPlayer(value SlotValue, conn net.Conn) *RemoteNetworkPlayer
 func (h *RemoteNetworkPlayer) MakeMove(game *TicTacToeGame) {
 	slot, err := bufio.NewReader(h.conn).ReadString('\n')
 	if err != nil {
-		// TODO remove this later
 		panic(err)
 	}
 	strSlot, err := strconv.Atoi(strings.Trim(slot, " \n"))
 	if err != nil {
-		// TODO remove this later
 		panic(err)
 	}
 	game.MakeMove(strSlot-1, h.Value())
